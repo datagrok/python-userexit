@@ -8,86 +8,80 @@ This repository provides a small Python class to make it even easier to adopt th
 
 ## Example
 
-<table width=100%><tr><th>Instead of this</th><th>write this</th></tr><tr><td>
-
-    import sys
-
-
-    class...:
-
-        def...:
-            ...
-            if input != expected:
-                print("Input {} should be set to {},"
-                      " please adjust your settings"
-                      " and re-run {}."
-                      .format(input,
-                              expected,
-                              sys.argv[0]))
-                sys.exit(3)
-            ...
-            try:
-                with open(filename) as fh:
-                    ...
-            except FileNotFoundError:
-                print("Please ensure the target file"
-                      " {} exists.".format(filename))
-                sys.exit(4)
-            ...
+<table width=100%><tr><th>Instead of this</th><th>write this</th></tr><tr><td><pre>
+import sys
 
 
-    def main():
-            ...
-    
-    if __name__ == '__main__':
-        main()
+class...:
 
-</td><td>
-
-    import UserExit
-    
-
-    class...:
-
-        def...:
-            ...
-            if input != expected:
-                raise BadInputError(input, expected)
-            ...
-            try:
-                with open(filename) as fh:
-                    ...
-            except FileNotFoundError:
-                raise TargetFileMissingError(filename)
-            ...
+    def...:
+        ...
+        if input != expected:
+            print("Input {} should be set to {},"
+                    " please adjust your settings"
+                    " and re-run {}."
+                    .format(input,
+                            expected,
+                            sys.argv[0]))
+            sys.exit(3)
+        ...
+        try:
+            with open(filename) as fh:
+                ...
+        except FileNotFoundError:
+            print("Please ensure the target file"
+                    " {} exists.".format(filename))
+            sys.exit(4)
+        ...
 
 
-    @UserExit.handle
-    def main():
-            ...
-    
-    if __name__ == '__main__':
-        main()
+def main():
+        ...
 
-</td></tr><tr><td>
-</td><td>
+if __name__ == '__main__':
+    main()
+</pre></td><td><pre>
+import UserExit
 
-    # elsewhere in the same or different module...
 
-    class BadInputError(UserExit):
-        exit_status = 3
-        message = """
-            Input {} should be set to {}, please adjust
-            your settings and re-run {sys.argv[0]}.
-            """
+class...:
 
-    class TargetFileMissingError(UserExit):
-        exit_status = 4
-        message = """
-            Please ensure the target file {} exists.
-            """
+    def...:
+        ...
+        if input != expected:
+            raise BadInputError(input, expected)
+        ...
+        try:
+            with open(filename) as fh:
+                ...
+        except FileNotFoundError:
+            raise TargetFileMissingError(filename)
+        ...
 
-</td></tr></table>
+
+@UserExit.handle
+def main():
+        ...
+
+if __name__ == '__main__':
+    main()
+</pre></td></tr><tr><td>
+</td><td><pre>
+# elsewhere in the same or different module...
+
+class BadInputError(UserExit):
+    exit_status = 3
+    message = """
+        Input {} should be set to {}, please adjust
+        your settings and re-run {sys.argv[0]}.
+        """
+
+class TargetFileMissingError(UserExit):
+    exit_status = 4
+    message = """
+        Please ensure the target file {} exists.
+        """
+</pre></td></tr></table>
 <table width=100%><tr><th>Before</th><th>After</th></tr><tr><td>
 
 </td><td>
