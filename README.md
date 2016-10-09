@@ -6,6 +6,46 @@ Tidy up with custom exception classes! Even for simple scripts, it's worth the t
 
 This repository provides a small Python class to make it even easier to adopt this pattern.
 
+## Example
+
+Wrap your main method with `@UserExit.handle`. Then create subclasses of `UserExit` and set their `message` appropriately.
+
+    import UserExit
+    ...
+    class...:
+        def...:
+            ...
+            if input != expected:
+                raise BadInputError(input, expected)
+            ...
+            try:
+                with open(filename) as fh:
+                    ...
+            except FileNotFoundError:
+                raise TargetFileMissingError(filename)
+            ...
+
+
+    @UserExit.handle
+    def main():
+            ...
+
+    if __name__ == '__main__':
+        main()
+
+Elsewhere, in the same or different module:
+
+    class BadInputError(UserExit):
+        exit_status = 3
+        message = """
+            Input {} should be set to {}, please adjust
+            your settings and re-run {sys.argv[0]}.
+            """
+
+    class TargetFileMissingError(UserExit):
+        exit_status = 4
+        message = "Please ensure the target file {} exists."
+
 ## Features
 
 - Built-in decorator enables handler with a single line of code.
