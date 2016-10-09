@@ -46,6 +46,8 @@ Elsewhere, in the same or different module:
         exit_status = 4
         message = "Please ensure the target file {} exists."
 
+For deeper exploration of the theory of operation, see [DESIGN.md](DESIGN.md).
+
 ## Features
 
 - Built-in decorator enables handler with a single line of code.
