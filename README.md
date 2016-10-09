@@ -1,16 +1,8 @@
 # UserExit
 
-Letting expected exceptions bubble up to end your script with a Python traceback is scary and unhelpful for users.
-
-But sprinkling `sys.exit("error message")` all over your script is ugly and can be troublesome when writing unit tests or importing your code as a library.
+Letting expected exceptions bubble up to end your script with a Python traceback is scary and unhelpful for users. But sprinkling `sys.exit("error message")` all over your script is ugly, and can be troublesome for testing or importing.
 
 Tidy up with custom exception classes! Even for simple scripts, it's worth the trouble. (And it's less trouble than you think!)
-
-Advantages:
-
-- **Readability.** This practice separates error messages and exit statuses from your program logic, collecting them in one place in your module, or even in a separate file.
-
-- **Reusability.** By employing custom exceptions rather than SystemExit or sys.exit(), your code may more easily be used as a library, or exercised by unit testing.
 
 This repository provides a small Python class to make it even easier to adopt this pattern.
 
