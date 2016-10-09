@@ -22,6 +22,8 @@ See README.md for usage and theory of operation.
 # License: AGPL-3.0+ http://www.gnu.org/licenses/agpl.html
 #
 
+from __future__ import print_function
+
 import functools
 import sys
 import textwrap
