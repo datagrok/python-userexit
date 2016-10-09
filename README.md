@@ -131,9 +131,9 @@ class TargetFileMissingError(UserExit):
 ## Features
 
 - Built-in decorator enables handler with a single line of code.
-- A bit of metaclass magic makes each of your error classes automatically set its own unique exit status, unless you explicitly assign one.
 - Messages are automatically whitespace-stripped and wrapped, to declutter source code.
 - Messages are automatically `.format()`ed with the custom class arguments and 'self'
+- (TODO) A bit of metaclass magic makes each of your error classes automatically set its own unique exit status, unless you explicitly assign one.
 
 ## Rationale
 
