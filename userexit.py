@@ -46,14 +46,34 @@ class UserExit(Exception):
     prefix_name = True
     prefix_error = True
 
-    @staticmethod
-    def handle(fn):
+    @classmethod
+    def handle(kls, fn):
+        """Decorator that will handle this exception.
+
+        Typical use is to decorate your main function.
+
+        Example: this causes any subclasses of UserExit raised within
+        main() to be handled appropriately: a message is printed for the
+        user with no Python traceback, and execution ends with a nonzero
+        exit status:
+
+            @UserExit.handle
+            def main():
+                ...
+
+            if __name__ == "__main__":
+                main()
+
+        Each subclass of UserExit contains this class method; using it
+        from a subclass will handle only that class of exception.
+
+        """
         @functools.wraps(fn)
         def inner(*args, **kwargs):
             try:
                 fn(*args, **kwargs)
-            except UserExit as ex:
-                print(ex)
+            except kls as ex:
+                print(ex, file=sys.stderr)
                 raise SystemExit(ex.exit_status)
         return inner
 
@@ -72,3 +92,6 @@ class UserAbort(UserExit):
     exit_status = 1
     message = "Execution aborted with an error."
     prefix_error = False
+
+# @userexit.handle decorator
+handle = UserExit.handle
