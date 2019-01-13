@@ -18,4 +18,5 @@ setup(
     ],
     keywords='sysexit systemexit exception traceback exit abort',
     py_modules=["userexit"],
+    test_suite="test_userexit",
 )

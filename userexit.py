@@ -7,7 +7,7 @@ See README.md for usage and theory of operation.
 
 """
 #
-# Copyright 2016  Michael F. Lamb <http://datagrok.org>
+# Copyright 2018  Michael F. Lamb <http://datagrok.org>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -40,6 +40,66 @@ def format_msg(s):
     return '\n\n'.join(
             para if '>>>' in para else textwrap.fill(para)
             for para in s.split('\n\n'))
+
+
+def _usable_statuses():
+    """Helper for SetDefaultExitStatus.
+
+    Return a list of exit statuses that are "safe" to use, in reverse order.
+
+
+    From https://www.tldp.org/LDP/abs/html/exitcodes.html#EXITCODESREF :
+
+    "... exit codes 1--2, 126--165, and 255 have special meanings, and should
+    therefore be avoided for user-specified exit parameters."
+
+    "usr/include/sysexits.h allocates previously unused exit codes from 64--78.
+    [Using these] should not cause any problems, since there is no overlap or
+    conflict in usage of exit codes between compiled C/C++ binaries and shell
+    scripts."
+
+    "The author of this document proposes restricting user-defined exit codes
+    to the range 64--113 to conform with the C/C++ standard."
+
+    So we assign, in order of preference:
+        79--113, as recommended by that author,
+        64--78, which that author says "should not cause problems,"
+        3--63, 114--125, 166--254, neither recommended by that author nor
+        mentioned in the table of special meanings,
+        1, when all others are used.
+    """
+    ranges = [
+        range(79, 114),
+        range(64, 79),
+        range(3, 64),
+        range(114, 126),
+        range(166, 255)]
+    lst = list(x for r in ranges for x in r)
+    # .reverse() because .pop() might be more efficient than .pop(0)
+    lst.reverse()
+    return lst
+
+
+class SetDefaultExitStatus(type):
+    """Metaclass. Sets class attribute "exit_status" when unspecified.
+
+    Each subclass of UserAbort will be assigned a different exit status from a
+    pool of "safe to use" statuses until the pool is exhausted, at which point
+    they will be assigned exit status 1.
+    """
+
+    def __new__(cls, name, bases, dct, _statuses=_usable_statuses()):
+        if 'exit_status' in dct:
+            try:
+                _statuses.remove(dct['exit_status'])
+            except ValueError:
+                pass
+        elif UserAbort in bases:
+            try:
+                dct['exit_status'] = _statuses.pop()
+            except IndexError:
+                dct['exit_status'] = 1
+        return super().__new__(cls, name, bases, dct)
 
 
 class UserExit(Exception):
@@ -90,10 +150,11 @@ class UserExit(Exception):
                 message.format(*self.args, self=self, argv=sys.argv))
 
 
-class UserAbort(UserExit):
+class UserAbort(UserExit, metaclass=SetDefaultExitStatus):
     exit_status = 1
     message = "Execution aborted with an error."
     prefix_error = False
+
 
 # @userexit.handle decorator
 handle = UserExit.handle

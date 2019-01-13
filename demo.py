@@ -2,7 +2,6 @@ from userexit import UserExit
 
 
 class BadInputError(UserExit):
-    exit_status = 3
     message = """
         Input {!r} should be set to {!r}. Please adjust your settings
         and re-run {argv[0]!r}.
