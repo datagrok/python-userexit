@@ -67,6 +67,6 @@ For deeper exploration of the theory of operation, see [DESIGN.md](DESIGN.md).
 
 ## License: AGPL-3.0+
 
-All of the code herein is copyright 2016 [Michael F. Lamb](http://datagrok.org) and released under the terms of the [GNU Affero General Public License, version 3][AGPL-3.0+] (or, at your option, any later version.)
+All of the code herein is copyright 2019 [Michael F. Lamb](http://datagrok.org) and released under the terms of the [GNU Affero General Public License, version 3][AGPL-3.0+] (or, at your option, any later version.)
 
 [AGPL-3.0+]: http://www.gnu.org/licenses/agpl.html

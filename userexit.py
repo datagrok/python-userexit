@@ -7,7 +7,7 @@ See README.md for usage and theory of operation.
 
 """
 #
-# Copyright 2018  Michael F. Lamb <http://datagrok.org>
+# Copyright 2019  Michael F. Lamb <http://datagrok.org>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
