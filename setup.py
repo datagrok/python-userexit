@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
     name='userexit',
-    version='0.1',
+    version='0.2',
     description="Use exceptions to abort without a traceback, rather than sys.exit()",
     long_description='',
     url='https://github.com/datagrok/python-userexit',
@@ -13,7 +13,6 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
     keywords='sysexit systemexit exception traceback exit abort',
